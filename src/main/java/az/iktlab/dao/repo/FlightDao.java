@@ -16,12 +16,19 @@ public class FlightDao {
 
     JdbcConnection jdbcConnection = new PgSql();
 
-    public List<FlightEntity> showSearchingFlight(String destinationFrom, String destinationTo, Date sqlDate,int numberOfPeople
+    public List<FlightEntity> showSearchingFlight(String destinationFrom, String destinationTo, Date sqlDate, int numberOfPeople
     ) throws SQLException {
         Statement stmt = jdbcConnection.getStatement();
-        ResultSet rs = stmt.executeQuery(String.valueOf(SqlQuery.showSearchingFlight(destinationFrom,destinationTo,sqlDate,numberOfPeople)));
+        ResultSet rs = stmt.executeQuery(String.valueOf(SqlQuery.showSearchingFlight(destinationFrom, destinationTo, sqlDate, numberOfPeople)));
 
 
-            return FlightMapper.mapFromRsToEntity(rs);
+        return FlightMapper.mapFromRsToEntity(rs);
+
+    }
+
+    public List<FlightEntity> showAllFlights() throws SQLException {
+        Statement stmt = jdbcConnection.getStatement();
+        ResultSet rsOne = stmt.executeQuery(SqlQuery.getAllFlights());
+        return FlightMapper.mapFromRsToEntity(rsOne);
     }
 }

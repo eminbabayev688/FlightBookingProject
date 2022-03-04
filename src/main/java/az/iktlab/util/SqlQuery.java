@@ -24,4 +24,7 @@ public class SqlQuery {
                 destinationFrom,destinationTo,sqlDate,numberOfPeople
         );
     }
+    public static String getAllFlights(){
+        return "Select * from fb_sc.flights";
+    }
 }

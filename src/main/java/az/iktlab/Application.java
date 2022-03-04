@@ -2,6 +2,7 @@ package az.iktlab;
 
 import az.iktlab.controller.FlightController;
 import az.iktlab.dao.repo.FlightDao;
+import az.iktlab.dao.repo.StartupLoaderDao;
 import az.iktlab.service.FlightService;
 import az.iktlab.util.CommandLineHelper;
 
@@ -16,6 +17,7 @@ public class Application {
         FlightDao flightDao = new FlightDao();
         FlightService flightService = new FlightService(flightDao);
         FlightController flightController = new FlightController(flightService);
+
         while(true){
 
             CommandLineHelper.showMenuBar();
@@ -26,11 +28,14 @@ public class Application {
             System.out.println();
 
             switch (command){
-                case "SearchBooking":
+                case "1":
+                    System.out.println("Online Board");
+                    System.out.println(flightController.getAllFlights());
+                case "3":
                     System.out.println("Serach and Booking flights:\n\n");
                     System.out.println(flightController.searchFlight());
                     break;
-                case "exit":
+                case "6":
                     System.out.println("Goodbye, see you again");
                     return;
             }
