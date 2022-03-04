@@ -37,4 +37,8 @@ public class FlightController {
         return service.searchFlight(destinationFrom,destinationTo,sqlDate,numberOfPeople);
 
     }
+    public List<Flight>getAllFlights() throws SQLException{
+        System.out.println("All data are coming...");
+        return service.getAllFlights();
+    }
 }

@@ -34,5 +34,18 @@ public class FlightService {
 
         return FlightMapper.mapToDto(flights);
     }
+    public List<Flight> getAllFlights(){
+        List<FlightEntity> flights = new ArrayList<>();
+
+
+        try {
+            flights = flightDao.showAllFlights();
+        } catch (SQLException e) {
+            System.out.println("Error occurred when searching flights");
+            System.out.printf("Error message: %s", e.getMessage());
+        }
+
+        return FlightMapper.mapToDto(flights);
+    }
 
 }

@@ -23,5 +23,11 @@ public class FlightDao {
 
 
             return FlightMapper.mapFromRsToEntity(rs);
+
+    }
+    public List<FlightEntity> showAllFlights() throws SQLException{
+        Statement stmt = jdbcConnection.getStatement();
+        ResultSet rsOne = stmt.executeQuery(SqlQuery.getAllFlights());
+        return FlightMapper.mapFromRsToEntity(rsOne);
     }
 }
