@@ -28,14 +28,14 @@ public class Application {
             System.out.println();
 
             switch (command){
-                case "OnlineBoard":
+                case "1":
                     System.out.println("Online Board");
                     System.out.println(flightController.getAllFlights());
-                case "SearchBooking":
+                case "3":
                     System.out.println("Serach and Booking flights:\n\n");
                     System.out.println(flightController.searchFlight());
                     break;
-                case "exit":
+                case "6":
                     System.out.println("Goodbye, see you again");
                     return;
             }
