@@ -4,29 +4,36 @@ import java.sql.Date;
 import java.util.Objects;
 
 public class Flight {
+    private long flightId;
     private String destinationFrom;
     private String destinationTO;
     private Date date;
     private int seats;
-    private int EmptySeats;
+    private int emptySeats;
 
     public Flight() {
     }
 
-    public Flight(String destinationFrom, String destinationTO, Date date, int seats) {
-        this.destinationFrom = destinationFrom;
-        this.destinationTO = destinationTO;
-        this.date = date;
-        this.seats = seats;
+    public Flight(long flightId) {
+        this.flightId = flightId;
     }
 
-    public Flight(String destinationFrom, String destinationTO,
-                  Date date, int seats, int emptySeats) {
+    public Flight(long flightId, String destinationFrom, String destinationTO, Date date,
+                  int seats, int emptySeats) {
+        this.flightId = flightId;
         this.destinationFrom = destinationFrom;
         this.destinationTO = destinationTO;
         this.date = date;
         this.seats = seats;
-        EmptySeats = emptySeats;
+        this.emptySeats = emptySeats;
+    }
+
+    public long getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(long flightId) {
+        this.flightId = flightId;
     }
 
     public String getDestinationFrom() {
@@ -62,11 +69,11 @@ public class Flight {
     }
 
     public int getEmptySeats() {
-        return EmptySeats;
+        return emptySeats;
     }
 
     public void setEmptySeats(int emptySeats) {
-        EmptySeats = emptySeats;
+        this.emptySeats = emptySeats;
     }
 
     @Override
@@ -74,22 +81,23 @@ public class Flight {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Flight flight = (Flight) o;
-        return seats == flight.seats && EmptySeats == flight.EmptySeats && Objects.equals(destinationFrom, flight.destinationFrom) && Objects.equals(destinationTO, flight.destinationTO) && Objects.equals(date, flight.date);
+        return flightId == flight.flightId && seats == flight.seats && emptySeats == flight.emptySeats && Objects.equals(destinationFrom, flight.destinationFrom) && Objects.equals(destinationTO, flight.destinationTO) && Objects.equals(date, flight.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(destinationFrom, destinationTO, date, seats, EmptySeats);
+        return Objects.hash(flightId, destinationFrom, destinationTO, date, seats, emptySeats);
     }
 
     @Override
     public String toString() {
         return "Flight{" +
-                "destinationFrom='" + destinationFrom + '\'' +
+                "flightId=" + flightId +
+                ", destinationFrom='" + destinationFrom + '\'' +
                 ", destinationTO='" + destinationTO + '\'' +
                 ", date=" + date +
                 ", seats=" + seats +
-                ", EmptySeats=" + EmptySeats +
+                ", emptySeats=" + emptySeats +
                 '}';
     }
 }

@@ -19,10 +19,10 @@ public class FlightService {
     public FlightService(FlightDao flightDao) {
         this.flightDao = flightDao;
     }
-
+    List<FlightEntity> flights = new ArrayList<>();
     public List<Flight> searchFlight(String destinationFrom,String destinationTo,Date sqlDate,int numberOfPeople){
 
-        List<FlightEntity> flights = new ArrayList<>();
+
 
 
         try {
@@ -35,7 +35,6 @@ public class FlightService {
         return FlightMapper.mapToDto(flights);
     }
     public List<Flight> getAllFlights(){
-        List<FlightEntity> flights = new ArrayList<>();
 
 
         try {
@@ -48,4 +47,24 @@ public class FlightService {
         return FlightMapper.mapToDto(flights);
     }
 
+    public List<Flight> showInfoFlight(Long flightId){
+
+        try {
+            flights = flightDao.showInfoFlight(flightId);
+        } catch (SQLException e) {
+            System.out.println("Error occurred while showing flight info");
+            System.out.printf("Error message: %s", e.getMessage());
+        }
+
+        return FlightMapper.mapToDto(flights);
+    }
+
+    public void emptySeatsDecrease(long flightId){
+        try {
+             flightDao.emptySeatsDecrease(flightId);
+        } catch (SQLException e) {
+            System.out.println("Error occurred while showing flight info");
+            System.out.printf("Error message: %s", e.getMessage());
+        }
+    }
 }

@@ -1,7 +1,5 @@
 package az.iktlab.dao.entity;
 
-import az.iktlab.model.Flight;
-
 import java.sql.Date;
 import java.util.Objects;
 
@@ -14,6 +12,10 @@ public class FlightEntity {
     private int emptySeats;
 
     public FlightEntity() {
+    }
+
+    public FlightEntity(long flightId) {
+        this.flightId = flightId;
     }
 
     public FlightEntity(long flightId, String destinationFrom, String destinationTO,

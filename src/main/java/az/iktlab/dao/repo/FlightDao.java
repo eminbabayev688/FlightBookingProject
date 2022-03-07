@@ -16,19 +16,30 @@ public class FlightDao {
 
     JdbcConnection jdbcConnection = new PgSql();
 
-    public List<FlightEntity> showSearchingFlight(String destinationFrom, String destinationTo, Date sqlDate, int numberOfPeople
+    public List<FlightEntity> showSearchingFlight(String destinationFrom, String destinationTo,
+                                                  Date sqlDate, int numberOfPeople
     ) throws SQLException {
         Statement stmt = jdbcConnection.getStatement();
         ResultSet rs = stmt.executeQuery(String.valueOf(SqlQuery.showSearchingFlight(destinationFrom, destinationTo, sqlDate, numberOfPeople)));
-
-
         return FlightMapper.mapFromRsToEntity(rs);
 
     }
 
     public List<FlightEntity> showAllFlights() throws SQLException {
         Statement stmt = jdbcConnection.getStatement();
-        ResultSet rsOne = stmt.executeQuery(SqlQuery.getAllFlights());
-        return FlightMapper.mapFromRsToEntity(rsOne);
+        ResultSet rs = stmt.executeQuery(SqlQuery.getAllFlights());
+        return FlightMapper.mapFromRsToEntity(rs);
+    }
+
+    public List<FlightEntity> showInfoFlight(Long flightId) throws SQLException {
+        Statement stmt = jdbcConnection.getStatement();
+        ResultSet rs = stmt.executeQuery(String.valueOf(SqlQuery.showInfoFlight(flightId)));
+        return FlightMapper.mapFromRsToEntity(rs);
+
+    }
+
+    public void emptySeatsDecrease(long flightId) throws SQLException {
+        Statement stmt = jdbcConnection.getStatement();
+        stmt.execute(SqlQuery.emptySeatsDecrease(flightId));
     }
 }

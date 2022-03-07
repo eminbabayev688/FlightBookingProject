@@ -13,7 +13,7 @@ public class FlightMapper {
 
     public static List<FlightEntity> mapFromRsToEntity(ResultSet rs) throws SQLException {
         List<FlightEntity> flights = new ArrayList<>();
-        while(rs.next()){
+        while (rs.next()) {
             flights.add(new FlightEntity(rs.getLong("flightid"),
                     rs.getString("destinationfrom"),
                     rs.getString("destinationto"),
@@ -26,10 +26,9 @@ public class FlightMapper {
 
     public static List<Flight> mapToDto(List<FlightEntity> flights) {
         return flights.stream()
-                .map(flight -> new Flight(flight.getDestinationFrom(), flight.getDestinationTO(), flight.getDate(), flight.getSeats(), flight.getEmptySeats()))
+                .map(flight -> new Flight(flight.getFlightId(),flight.getDestinationFrom(), flight.getDestinationTO(), flight.getDate(), flight.getSeats(), flight.getEmptySeats()))
                 .collect(Collectors.toList());
     }
-
 
 
 }
