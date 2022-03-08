@@ -17,7 +17,7 @@ public class UserService {
 
     public String loginUser(String username, String pass) {
         if (username.equals("") || pass.equals("")) {
-            System.out.println("Username and password field must be filled");
+            System.out.println("Username and password field must be filled\n");
             return null;
         }
         String password = Validator.doHashPassword(pass);
@@ -27,13 +27,13 @@ public class UserService {
             count = dao.loginUser(username, password);
         } catch (SQLException e) {
             System.out.println("An error occurred while logging in");
-            System.out.println("Error message: " + e.getMessage());
+            System.out.println("Error message:" + e.getMessage());
         }
         if (count > 0) {
-            System.out.println("You have successfully logged in");
+            System.out.println("You have successfully logged in\n");
             return username;
         } else {
-            System.out.println("username or password is incorrect");
+            System.out.println("username or password is incorrect\n");
             return null;
         }
     }
@@ -43,8 +43,8 @@ public class UserService {
         try {
             count = dao.checkUsernameInDatabase(username);
         } catch (SQLException e) {
-            System.out.println("An error occurred while registration");
-            System.out.println("Error message: " + e.getMessage());
+            System.out.println("An error occurred while registration.");
+            System.out.println("Error message:" + e.getMessage());
         }
         return count;
     }
@@ -71,11 +71,11 @@ public class UserService {
 
         try {
             boolean flag = dao.registrationUser(entity);
-            if (flag) System.out.println("You have successfully registered");
-            else System.out.println("registration failed");
+            if (flag) System.out.println("You have successfully registered\n");
+            else System.out.println("registration failed\n");
         } catch (SQLException e) {
-            System.out.println("An error occurred while registration");
-            System.out.println("Error message: " + e.getMessage());
+            System.out.println("An error occurred while registration\n");
+            System.out.println("Error message:" + e.getMessage());
         }
 
     }

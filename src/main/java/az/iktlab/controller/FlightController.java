@@ -47,10 +47,10 @@ public class FlightController {
     public List<Flight> showInfoFlight() throws SQLException {
         System.out.print("Fill in the fields to search for flights:\n");
 
-        System.out.print("Enter fight id: ");
+        System.out.print("Enter fight id:");
         Long flightId = sc.nextLong();
 
-        System.out.println("All data are coming...");
+        System.out.println("Result corresponding to the entered id:");
         return service.showInfoFlight(flightId);
     }
 

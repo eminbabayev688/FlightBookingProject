@@ -19,7 +19,7 @@ public class Application {
 
     public static void runApplication(String username) throws SQLException {
         final Scanner sc = new Scanner(System.in);
-        System.out.print("Welcome to the application:\n\n");
+        System.out.print(username+" welcome to the application menu:\n\n");
 
         FlightDao flightDao = new FlightDao();
         FlightService flightService = new FlightService(flightDao);
@@ -29,7 +29,7 @@ public class Application {
         BookingService bookingService = new BookingService(bookingDao);
         BookingController bookingController = new BookingController(bookingService);
 
-        System.out.println("username="+username);
+
         while (true) {
 
             CommandLineHelper.showAppMenuBar();
@@ -45,8 +45,8 @@ public class Application {
                     flightController.getAllFlights().forEach(System.out::println);
                     break;
                 case "2":
-                    System.out.println("Information about the flight whose ID is entered:\n\n");
-                    System.out.println(flightController.showInfoFlight());
+                    System.out.print("\nInformation about the flight whose ID is entered:\n");
+                    System.out.println(flightController.showInfoFlight()+"\n");
                     break;
                 case "3":
                     System.out.println("Serach and Booking flights:\n");
