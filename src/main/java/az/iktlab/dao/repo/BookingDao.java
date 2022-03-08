@@ -6,6 +6,8 @@ import az.iktlab.dao.entity.BookingEntity;
 import az.iktlab.dao.entity.FlightEntity;
 import az.iktlab.mapper.BookingMapper;
 import az.iktlab.mapper.FlightMapper;
+import az.iktlab.mapper.UserMapper;
+import az.iktlab.model.Booking;
 import az.iktlab.util.SqlQuery;
 
 import java.sql.ResultSet;
@@ -16,6 +18,11 @@ import java.util.List;
 public class BookingDao {
     JdbcConnection jdbcConnection = new PgSql();
 
+    public int checkMyBookings(String username) throws SQLException{
+        Statement stmt = jdbcConnection.getStatement();
+        ResultSet rs = stmt.executeQuery(SqlQuery.checkMyBookings(username));
+        return BookingMapper.mapFromRsToCount(rs);
+    }
     public List<BookingEntity> showMyBookings(String username) throws SQLException {
         Statement stmt = jdbcConnection.getStatement();
         ResultSet rs = stmt.executeQuery(SqlQuery.getMyBookings(username));

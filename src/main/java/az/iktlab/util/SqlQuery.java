@@ -1,5 +1,8 @@
 package az.iktlab.util;
 
+import az.iktlab.dao.entity.UserEntity;
+import az.iktlab.model.User;
+
 import java.sql.Date;
 
 public class SqlQuery {
@@ -58,5 +61,26 @@ public class SqlQuery {
     public static String checkLogin(String username,String password){
         return String.format("select count(username) from fb_sc.users where\n" +
                 "username='%s' and password ='%s'", username,password);
+    }
+
+    public static String checkUsername(String username){
+        return String.format("select count(username) from fb_sc.users where\n" +
+                "username='%s'", username);
+    }
+
+    public static String saveUser(UserEntity user) {
+        return String.format("INSERT INTO fb_sc.users (username, password,firstname, lastname, age, gender) " +
+                        "VALUES ('%s', '%s', '%s','%s', %s, '%s')",
+                user.getUsername(),
+                user.getPassword(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getAge(),
+                user.getGender());
+    }
+
+    public static String checkMyBookings(String username){
+        return String.format("select count(username) from fb_sc.bookings where\n" +
+                        "username='%s'",username);
     }
 }

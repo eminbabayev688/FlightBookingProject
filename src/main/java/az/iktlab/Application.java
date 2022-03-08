@@ -17,9 +17,10 @@ import java.util.stream.Stream;
 
 public class Application {
 
-    public static void runApp() throws SQLException {
+    public static void runApplication(String username) throws SQLException {
         final Scanner sc = new Scanner(System.in);
         System.out.print("Welcome to the application:\n\n");
+
         FlightDao flightDao = new FlightDao();
         FlightService flightService = new FlightService(flightDao);
         FlightController flightController = new FlightController(flightService);
@@ -28,13 +29,10 @@ public class Application {
         BookingService bookingService = new BookingService(bookingDao);
         BookingController bookingController = new BookingController(bookingService);
 
-        UserDao userDao = new UserDao();
-        UserService userService = new UserService(userDao);
-        UserController userController = new UserController(userService);
-
+        System.out.println("username="+username);
         while (true) {
 
-            CommandLineHelper.showMenuBar();
+            CommandLineHelper.showAppMenuBar();
 
             System.out.print("Select command: ");
 
@@ -59,17 +57,18 @@ public class Application {
                 case "4":
                     break;
                 case "5":
-                    System.out.print("A list of all bookings in which the user is a passenger:\n\n");
-                    String username = null;
-                    username = userController.login();
-                    if (username != null) {
-                        bookingController.showMyBookings(username)
-                                .forEach(System.out::println);
-                    }
+                    System.out.print("A list of all bookings in which the user is a passenger:\n");
+                        int count = bookingController.checkMyBookings(username);
+                        if (count>0){
+                            bookingController.showMyBookings(username)
+                                    .forEach(System.out::println);
+                            System.out.print("\n\n");
+                        }else{
+                            System.out.print("There are no flights you have booked\n\n");
+                        }
 
                     break;
                 case "6":
-                    System.out.println("Goodbye, see you again");
                     return;
             }
         }

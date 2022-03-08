@@ -2,8 +2,10 @@ package az.iktlab.mapper;
 
 import az.iktlab.dao.entity.BookingEntity;
 import az.iktlab.dao.entity.FlightEntity;
+import az.iktlab.dao.entity.UserEntity;
 import az.iktlab.model.Booking;
 import az.iktlab.model.Flight;
+import az.iktlab.model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,5 +31,13 @@ public class BookingMapper {
         return bookings.stream()
                 .map(booking -> new Booking(booking.getBookingId(),booking.getFlightId(), booking.getUsername(), booking.getPassengerName(), booking.getGetPassengerSurname()))
                 .collect(Collectors.toList());
+    }
+
+    public static int mapFromRsToCount(ResultSet rs) throws SQLException {
+        int count = 0;
+        while (rs.next()) {
+            count=rs.getInt(1);
+        }
+        return count;
     }
 }

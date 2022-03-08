@@ -16,10 +16,6 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(long userId) {
-        this.userId = userId;
-    }
-
     public UserEntity(long userId, String username, String password, String firstName,
                       String lastName, int age, Gender gender) {
         this.userId = userId;

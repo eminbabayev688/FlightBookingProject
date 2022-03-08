@@ -16,9 +16,12 @@ public class BookingController {
         this.service = service;
     }
 
+    public int checkMyBookings(String username){
+        return service.checkMyBookings(username);
+    }
     public List<Booking> showMyBookings(String username) throws SQLException {
 
-        System.out.println("All data are coming...");
+        System.out.println("all flights you have booked:");
         return service.showMyBookings(username);
     }
 

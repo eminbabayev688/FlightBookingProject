@@ -1,5 +1,6 @@
 package az.iktlab.controller;
 
+import az.iktlab.model.User;
 import az.iktlab.service.UserService;
 import az.iktlab.util.Validator;
 
@@ -13,16 +14,56 @@ public class UserController {
         this.service = service;
     }
 
-    public String login(){
-        System.out.print("Fill in the fields to showing your flights:\n");
+    public String loginUser() {
+        System.out.print("Fill in the fields to login to the app:\n");
 
         System.out.print("Enter username: ");
         String username = sc.nextLine();
 
         System.out.print("Enter password: ");
-        String pass = sc.nextLine();
-        String password = Validator.doHashPassword(pass);
+        String password = sc.nextLine();
 
-        return service.login(username,password);
+        return service.loginUser(username, password);
     }
+
+    public int checkUsernameInDatabase(String username){
+
+        return service.checkUsernameInDatabase(username);
+    }
+
+    public void registrationUser() {
+        System.out.print("Fill in the fields to registration to the app:\n");
+
+        User user = new User();
+
+        System.out.print("Enter username: ");
+        String username = sc.nextLine();
+        user.setUsername(username);
+
+        System.out.print("Enter password: ");
+        String password = sc.nextLine();
+        user.setPassword(password);
+
+        System.out.print("Enter first name: ");
+        String firstName = sc.nextLine();
+        user.setFirstName(firstName);
+
+        System.out.print("Enter last name: ");
+        String lastName = sc.nextLine();
+        user.setLastName(lastName);
+
+        System.out.print("Enter age: ");
+        int age = sc.nextInt();
+        user.setAge(age);
+        sc.nextLine();
+
+        System.out.print("Enter gender: ");
+        String gender = sc.nextLine();
+        user.setGender(Validator.validateGender(gender));
+
+        service.registrationUser(user);
+
+    }
+
+
 }

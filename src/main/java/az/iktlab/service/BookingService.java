@@ -21,6 +21,16 @@ public class BookingService {
         this.dao = dao;
     }
 
+    public int checkMyBookings(String username){
+        int count = 0;
+        try {
+            count = dao.checkMyBookings(username);
+        } catch (SQLException e) {
+            System.out.println("Error occurred while count bookings");
+            System.out.printf("Error message: %s", e.getMessage());
+        }
+        return count;
+    }
     public List<Booking> showMyBookings(String username) {
         List<BookingEntity> bookings = new ArrayList<>();
 
