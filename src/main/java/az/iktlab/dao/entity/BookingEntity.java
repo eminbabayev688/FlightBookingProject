@@ -1,5 +1,7 @@
 package az.iktlab.dao.entity;
 
+import az.iktlab.model.Gender;
+
 import java.util.Objects;
 
 public class BookingEntity {
@@ -7,18 +9,30 @@ public class BookingEntity {
     private long flightId;
     private String username;
     private String passengerName;
-    private String getPassengerSurname;
+    private String passengerSurname;
+    private Gender gender;
 
     public BookingEntity() {
     }
 
+
+    public BookingEntity(long flightId, String username, String passengerName, String passengerSurname,
+                         Gender gender) {
+        this.flightId = flightId;
+        this.username = username;
+        this.passengerName = passengerName;
+        this.passengerSurname = passengerSurname;
+        this.gender = gender;
+    }
+
     public BookingEntity(long bookingId, long flightId, String username,
-                         String passengerName, String getPassengerSurname) {
+                         String passengerName, String passengerSurname, Gender gender) {
         this.bookingId = bookingId;
         this.flightId = flightId;
         this.username = username;
         this.passengerName = passengerName;
-        this.getPassengerSurname = getPassengerSurname;
+        this.passengerSurname = passengerSurname;
+        this.gender = gender;
     }
 
     public long getBookingId() {
@@ -53,12 +67,20 @@ public class BookingEntity {
         this.passengerName = passengerName;
     }
 
-    public String getGetPassengerSurname() {
-        return getPassengerSurname;
+    public String getPassengerSurname() {
+        return passengerSurname;
     }
 
-    public void setGetPassengerSurname(String getPassengerSurname) {
-        this.getPassengerSurname = getPassengerSurname;
+    public void setPassengerSurname(String passengerSurname) {
+        this.passengerSurname = passengerSurname;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     @Override
@@ -66,12 +88,12 @@ public class BookingEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BookingEntity that = (BookingEntity) o;
-        return bookingId == that.bookingId && flightId == that.flightId && Objects.equals(username, that.username) && Objects.equals(passengerName, that.passengerName) && Objects.equals(getPassengerSurname, that.getPassengerSurname);
+        return bookingId == that.bookingId && flightId == that.flightId && Objects.equals(username, that.username) && Objects.equals(passengerName, that.passengerName) && Objects.equals(passengerSurname, that.passengerSurname) && gender == that.gender;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookingId, flightId, username, passengerName, getPassengerSurname);
+        return Objects.hash(bookingId, flightId, username, passengerName, passengerSurname, gender);
     }
 
     @Override
@@ -81,7 +103,8 @@ public class BookingEntity {
                 ", flightId=" + flightId +
                 ", username='" + username + '\'' +
                 ", passengerName='" + passengerName + '\'' +
-                ", getPassengerSurname='" + getPassengerSurname + '\'' +
+                ", passengerSurname='" + passengerSurname + '\'' +
+                ", gender=" + gender +
                 '}';
     }
 }

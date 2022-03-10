@@ -7,6 +7,9 @@ import az.iktlab.mapper.BookingMapper;
 import az.iktlab.mapper.FlightMapper;
 import az.iktlab.model.Booking;
 import az.iktlab.model.Flight;
+import az.iktlab.model.Gender;
+import az.iktlab.util.ConsoleColors;
+import az.iktlab.util.Validator;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,39 +24,103 @@ public class BookingService {
         this.dao = dao;
     }
 
-    public int checkMyBookings(String username){
+    public int checkMyBookings(String username) {
         int count = 0;
         try {
             count = dao.checkMyBookings(username);
         } catch (SQLException e) {
-            System.out.println("Error occurred while count bookings");
-            System.out.printf("Error message: %s", e.getMessage());
+            System.out.println(ConsoleColors.RED + "Error occurred while count bookings.");
+            System.out.printf(ConsoleColors.RED + "Error message: %s", e.getMessage() + "\n");
         }
         return count;
     }
-    public List<Booking> showMyBookings(String username) {
-        List<BookingEntity> bookings = new ArrayList<>();
 
+    public List<Booking> showMyBookings(String username) {
+
+        List<BookingEntity> bookings = new ArrayList<>();
         try {
             bookings = dao.showMyBookings(username);
         } catch (SQLException e) {
-            System.out.println("Error occurred while show bookings");
-            System.out.printf("Error message: %s", e.getMessage());
+            System.out.println(ConsoleColors.RED + "Error occurred while show bookings.");
+            System.out.printf(ConsoleColors.RED + "Error message: %s", e.getMessage() + "\n");
         }
 
         return BookingMapper.mapToDto(bookings);
     }
 
-    public Long bookingFlight(
-            Long flightId,String username,String passengerName,String passengerSurname){
-
+    public Long bookingFlight(Booking booking) {
+        if (Validator.checkPassengerBookingTable(booking) == false) return 0l;
+        BookingEntity bookingEntity = BookingMapper.mapToEntity(booking);
         try {
-            dao.bookingFlight(flightId,username,passengerName,passengerSurname);
-            System.out.println("Booking successfully");
+            dao.bookingFlight(bookingEntity);
+            System.out.println(ConsoleColors.GREEN + "Booking successfully.\n");
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Error occurred while show bookings");
-            System.out.printf("Error message: %s", e.getMessage());
+            System.out.println(ConsoleColors.RED + "Error occurred while show bookings");
+            System.out.printf(ConsoleColors.RED + "Error message: %s", e.getMessage() + "\n");
+        }
+
+        return booking.getFlightId();
+    }
+
+    public int checkPassengerBookingTable(Booking booking) {
+        if (Validator.checkFlightIdInDatabase(booking.getFlightId()) == false) return -1;
+        if (Validator.checkFirstAndLastName(booking.getPassengerName()) == false) return -1;
+        if (Validator.checkFirstAndLastName(booking.getPassengerSurname()) == false) return -1;
+        if (Validator.checkGender(booking.getGender()) == false) return -1;
+
+        BookingEntity bookingEntity = BookingMapper.mapToEntity(booking);
+        int count = 0;
+        try {
+            count = dao.checkPassengerBookingTable(bookingEntity);
+        } catch (SQLException e) {
+            System.out.println(ConsoleColors.RED + "Error occurred while bookings.");
+            System.out.printf(ConsoleColors.RED + "Error message: %s", e.getMessage() + "\n");
+        }
+        if (count > 0) {
+            System.out.printf(ConsoleColors.RED +
+                            "A passenger named %s %s has a reservation for a flight with flight id %s.\n\n",
+                    booking.getPassengerName(),
+                    booking.getPassengerSurname(), booking.getFlightId());
+            return count;
+        } else return 0;
+    }
+
+    public int checkBookingIdInDatabase(long bookingId) {
+        int count = 0;
+        try {
+            count = dao.checkBookingIdInDatabase(bookingId);
+        } catch (SQLException e) {
+            System.out.println(ConsoleColors.RED + "Error occurred while check booking id.");
+            System.out.printf(ConsoleColors.RED + "Error message: %s", e.getMessage() + "\n");
+        }
+        return count;
+    }
+
+    public List getFlightIdCancelBooking(long bookingId) {
+        List<BookingEntity> bookings = new ArrayList<>();
+
+        try {
+            bookings = dao.getFlightIdCancelBooking(bookingId);
+        } catch (SQLException e) {
+            System.out.println(ConsoleColors.RED +
+                    "Error occurred while get flight id in bookings table.");
+            System.out.printf(ConsoleColors.RED + "Error message: %s", e.getMessage() + "\n");
+        }
+        return BookingMapper.mapToDto(bookings);
+    }
+
+    public long cancelBooking(long bookingId) {
+        if (Validator.checkBookingId(bookingId) == false) return 0l;
+        long flightId = Validator.getFlightIdCancelBooking(bookingId);
+
+        try {
+            dao.cancelBooking(bookingId);
+            System.out.printf(ConsoleColors.GREEN + "Booking according to booking id " +
+                    "number %s have been canceled.\n\n", bookingId);
+        } catch (SQLException e) {
+            System.out.println(ConsoleColors.RED + "Error occurred while cancel booking.");
+            System.out.printf(ConsoleColors.RED + "Error message: %s", e.getMessage() + "\n");
         }
 
         return flightId;

@@ -4,6 +4,7 @@ import az.iktlab.dao.repo.UserDao;
 import az.iktlab.service.UserService;
 import az.iktlab.controller.UserController;
 import az.iktlab.util.CommandLineHelper;
+import az.iktlab.util.ConsoleColors;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -11,7 +12,8 @@ import java.util.Scanner;
 public class LoginPage {
     public static void runLoginPage() throws SQLException {
         final Scanner sc = new Scanner(System.in);
-        System.out.println("Welcome to the application:\n");
+        System.out.println(ConsoleColors.RESET +
+                "Welcome to the application:\n");
 
         UserDao userDao = new UserDao();
         UserService userService = new UserService(userDao);
@@ -19,7 +21,7 @@ public class LoginPage {
 
         while (true) {
             CommandLineHelper.showLoginMenuBar();
-            System.out.print("Select command:");
+            System.out.print(ConsoleColors.RESET + "Select command:");
             String command = sc.nextLine();
 
             switch (command) {
@@ -34,7 +36,7 @@ public class LoginPage {
                     userController.registrationUser();
                     break;
                 case "3":
-                    System.out.println("Goodbye, see you again");
+                    System.out.println(ConsoleColors.RESET + "Goodbye, see you again");
                     return;
             }
         }

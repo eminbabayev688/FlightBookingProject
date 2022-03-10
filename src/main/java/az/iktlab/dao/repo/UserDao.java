@@ -14,20 +14,21 @@ public class UserDao {
 
     JdbcConnection jdbcConnection = new PgSql();
 
-    public int loginUser(String username,String password) throws SQLException {
+    public int loginUser(String username, String password) throws SQLException {
         Statement stmt = jdbcConnection.getStatement();
-        ResultSet rs =stmt.executeQuery(SqlQuery.checkLogin(username,password));
+        ResultSet rs = stmt.executeQuery(SqlQuery.checkLogin(username, password));
         return UserMapper.mapFromRsToCount(rs);
     }
 
-    public int checkUsernameInDatabase(String username) throws SQLException{
+    public int checkUsernameInDatabase(String username) throws SQLException {
         Statement stmt = jdbcConnection.getStatement();
         ResultSet rs = stmt.executeQuery(SqlQuery.checkUsername(username));
         return UserMapper.mapFromRsToCount(rs);
     }
-    public boolean registrationUser(UserEntity user) throws SQLException {
+
+    public boolean registrationUser(UserEntity userEntity) throws SQLException {
         Statement stmt = jdbcConnection.getStatement();
-        boolean flag = stmt.execute(SqlQuery.saveUser(user));
+        boolean flag = stmt.execute(SqlQuery.saveUser(userEntity));
         return !flag;
     }
 }

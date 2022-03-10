@@ -14,7 +14,7 @@ public class UserMapper {
     public static int mapFromRsToCount(ResultSet rs) throws SQLException {
         int count = 0;
         while (rs.next()) {
-                count=rs.getInt(1);
+            count = rs.getInt(1);
         }
         return count;
     }

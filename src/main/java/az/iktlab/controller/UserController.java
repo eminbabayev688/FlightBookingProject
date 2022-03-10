@@ -2,6 +2,7 @@ package az.iktlab.controller;
 
 import az.iktlab.model.User;
 import az.iktlab.service.UserService;
+import az.iktlab.util.ConsoleColors;
 import az.iktlab.util.Validator;
 
 import java.util.Scanner;
@@ -15,24 +16,25 @@ public class UserController {
     }
 
     public String loginUser() {
-        System.out.print("\nFill in the fields to login to the app:\n");
+        System.out.print(ConsoleColors.RESET +
+                "\nFill in the fields to login to the app:\n");
 
-        System.out.print("Enter username:");
+        System.out.print(ConsoleColors.RESET + "Enter username:");
         String username = sc.nextLine();
 
-        System.out.print("Enter password:");
+        System.out.print(ConsoleColors.RESET + "Enter password:");
         String password = sc.nextLine();
 
         return service.loginUser(username, password);
     }
 
-    public int checkUsernameInDatabase(String username){
-
+    public int checkUsernameInDatabase(String username) {
         return service.checkUsernameInDatabase(username);
     }
 
     public void registrationUser() {
-        System.out.print("\nFill in the fields to registration to the app:\n");
+        System.out.print(ConsoleColors.RESET +
+                "\nFill in the fields to registration to the app:\n");
 
         User user = new User();
 
@@ -64,6 +66,4 @@ public class UserController {
         service.registrationUser(user);
 
     }
-
-
 }

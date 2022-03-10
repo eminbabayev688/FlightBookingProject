@@ -1,18 +1,30 @@
 package az.iktlab.util;
 
+import az.iktlab.controller.BookingController;
+import az.iktlab.controller.FlightController;
 import az.iktlab.controller.UserController;
+import az.iktlab.dao.entity.FlightEntity;
+import az.iktlab.dao.repo.BookingDao;
+import az.iktlab.dao.repo.FlightDao;
 import az.iktlab.dao.repo.UserDao;
+import az.iktlab.model.Booking;
+import az.iktlab.model.Flight;
 import az.iktlab.model.Gender;
+import az.iktlab.service.BookingService;
+import az.iktlab.service.FlightService;
 import az.iktlab.service.UserService;
 
+import java.awt.print.Book;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
+import java.sql.SQLOutput;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class Validator {
-
-
 
     public static String doHashPassword(String password) {
 
@@ -32,26 +44,23 @@ public class Validator {
     }
 
     public static Gender validateGender(String gender) {
-        try {
-            if (gender.equals("male"))
-                return Gender.Male;
-            else if (gender.equals("female"))
-                return Gender.Female;
-            else throw new RuntimeException();
-        } catch (RuntimeException e) {
-            System.out.println("Enter valid gender name. (example: male/female)");
-        }
-        return null;
+        if (gender.equals("male"))
+            return Gender.male;
+        else if (gender.equals("female"))
+            return Gender.female;
+        else return Gender.noneGender;
     }
 
     public static boolean checkUsername(String username) {
         boolean checker = true;
         String s = Character.toString(username.charAt(0));
         if (username.length() < 8) {
-            System.out.println("Username cannot be less than 8 digits\n");
+            System.out.println(ConsoleColors.RED +
+                    "Username cannot be less than 8 digits.\n");
             checker = false;
         } else if (Pattern.matches("[a-z]", s) == false) {
-            System.out.println("Username can only start with a lowercase letter\n");
+            System.out.println(ConsoleColors.RED +
+                    "Username can only start with a lowercase letter.\n");
             checker = false;
         }
         return checker;
@@ -63,7 +72,8 @@ public class Validator {
         for (int j = 0; j < n; j++) {
             String s = Character.toString(username.charAt(j));
             if (Pattern.matches("[ ]", s) == true) {
-                System.out.println("You cannot use spaces in the username\n");
+                System.out.println(ConsoleColors.RED +
+                        "You cannot use spaces in the username.\n");
                 checker = false;
                 break;
             }
@@ -72,8 +82,9 @@ public class Validator {
         for (int i = 0; i < n; i++) {
             String s = Character.toString(username.charAt(i));
             if (Pattern.matches("[a-z0-9_.]", s) == false) {
-                System.out.println("Only lowercase letters, numbers, underscores(_) and dot(.)" +
-                        " can be used in the username\n");
+                System.out.println(ConsoleColors.RED +
+                        "Only lowercase letters, numbers, underscores(_) and dot(.)" +
+                        " can be used in the username.\n");
                 checker = false;
                 break;
             }
@@ -84,7 +95,8 @@ public class Validator {
     public static boolean checkAge(int age) {
         boolean checker = true;
         if (age < 18) {
-            System.out.println("Persons under the age of 18 cannot register\n");
+            System.out.println(ConsoleColors.RED +
+                    "Persons under the age of 18 cannot register.\n");
             checker = false;
         }
         return checker;
@@ -94,14 +106,16 @@ public class Validator {
         String s = Character.toString(name.charAt(0));
         boolean checker = true;
         if (Pattern.matches("[a-z]", s) == true) {
-            System.out.println("First name or last name can only start with a Uppercase letter\n");
+            System.out.println(ConsoleColors.RED +
+                    "First name or last name can only start with a Uppercase letter.\n");
             checker = false;
         } else {
             int n = name.length();
             for (int j = 0; j < n; j++) {
                 String str = Character.toString(name.charAt(j));
                 if (Pattern.matches("[ ]", str) == true) {
-                    System.out.println("You cannot use spaces in the last name and first name\n");
+                    System.out.println(ConsoleColors.RED +
+                            "You cannot use spaces in the last name and first name.\n");
                     checker = false;
                     break;
                 }
@@ -114,10 +128,12 @@ public class Validator {
         String s = Character.toString(password.charAt(0));
         boolean checker = true;
         if (password.length() < 8) {
-            System.out.println("Password cannot be less than 8 digits\n");
+            System.out.println(ConsoleColors.RED +
+                    "Password cannot be less than 8 digits.\n");
             checker = false;
         } else if (Pattern.matches("[A-Z]", s) == false) {
-            System.out.println("Password can only start with a Uppercase letter\n");
+            System.out.println(ConsoleColors.RED +
+                    "Password can only start with a Uppercase letter.\n");
             checker = false;
         }
         return checker;
@@ -129,32 +145,134 @@ public class Validator {
         for (int j = 0; j < n; j++) {
             String s = Character.toString(password.charAt(j));
             if (Pattern.matches("[ ]", s) == true) {
-                System.out.println("You cannot use spaces in the password\n");
+                System.out.println(ConsoleColors.RED +
+                        "You cannot use spaces in the password.\n");
                 checker = false;
             }
         }
 
-//        for (int i = 0; i < n; i++) {
-//            String s = Character.toString(password.charAt(i));
-//            if (Pattern.matches("[0-9]", s)== true) {
-//                break;
-//            }
-//        }
+        for (int i = 0; i < n; i++) {
+            String s = Character.toString(password.charAt(i));
+            if (Pattern.matches("[a-zA-Z0-9!@#$%^&*]", s) == false) {
+                System.out.println(ConsoleColors.RED +
+                        "You cannot use the " + s + " symbol in the password.");
+                System.out.println(ConsoleColors.RED + "password can contain upper" +
+                        " and lower case letters, numbers and ! @ # $ % ^ & * characters.\n");
+                checker = false;
+            }
+        }
         return checker;
     }
 
-    public static boolean  checkUsernameInDatabase(String username){
+    public static boolean checkUsernameInDatabase(String username) {
         UserDao userDao = new UserDao();
         UserService userService = new UserService(userDao);
         UserController userController = new UserController(userService);
         boolean checker = false;
         int count = userController.checkUsernameInDatabase(username);
-        if(count>0){
-            System.out.println("Username '"+username+"' is used," +
-                    "you cannot get this name\n");
-        }else{
+        if (count > 0) {
+            System.out.printf(ConsoleColors.RED + "Username '%s' is used," +
+                    "you cannot get this name.\n\n", username);
+        } else {
             checker = true;
         }
         return checker;
+    }
+
+    public static boolean getCountSearchResult(Flight flight) {
+
+        FlightDao flightDao = new FlightDao();
+        FlightService flightService = new FlightService(flightDao);
+        FlightController flightController = new FlightController(flightService);
+        int count = flightController.getCountSearchResult(flight);
+        if (count == 0) {
+            System.out.printf(ConsoleColors.RED + "%s results found for your search.\n", count);
+            System.out.println(ConsoleColors.RESET);
+            return false;
+        } else if (count > 0) {
+            System.out.printf(ConsoleColors.GREEN + "%s results found for your search.\n", count);
+            System.out.print(ConsoleColors.RESET);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean checkPassengerBookingTable(Booking booking) {
+        BookingDao bookingDao = new BookingDao();
+        BookingService bookingService = new BookingService(bookingDao);
+        BookingController bookingController = new BookingController(bookingService);
+
+        int count = bookingController.checkPassengerBookingTable(booking);
+
+        if (count > 0) {
+            return false;
+        } else if (count == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean checkGender(Gender gender) {
+        boolean checker = true;
+        if (gender != Gender.female) {
+            if (gender != Gender.male) {
+                System.out.println(ConsoleColors.RED +
+                        "Enter valid gender name.\n");
+                checker = false;
+            }
+        }
+        return checker;
+    }
+
+    public static boolean checkCityFirstLetter(String destination) {
+        String s = Character.toString(destination.charAt(0));
+        boolean checker = true;
+        if (Pattern.matches("[A-Z]", s) == false) {
+            System.out.println(ConsoleColors.RED +
+                    "City name can only start with a Uppercase letter.\n");
+            System.out.print(ConsoleColors.RESET);
+            checker = false;
+        }
+        return checker;
+    }
+
+    public static boolean checkFlightIdInDatabase(Long flightId) {
+        FlightDao flightDao = new FlightDao();
+        FlightService flightService = new FlightService(flightDao);
+        Long id = flightService.checkFlightIdInDatabase(flightId);
+        if (id > 0)
+            return true;
+        else {
+            System.out.println(ConsoleColors.RED +
+                    "No flight found matching the ID entered.\n");
+            System.out.print(ConsoleColors.RESET);
+            return false;
+        }
+    }
+
+    public static boolean checkBookingId(long bookingId) {
+        BookingDao bookingDao = new BookingDao();
+        BookingService bookingService = new BookingService(bookingDao);
+        BookingController bookingController = new BookingController(bookingService);
+
+        int count = bookingController.checkBookingIdInDatabase(bookingId);
+        if (count == 0) {
+            System.out.printf(ConsoleColors.RED +
+                    "No bookings with booking id equal to %s were found.\n\n", bookingId);
+            System.out.print(ConsoleColors.RESET);
+            return false;
+        } else
+            return true;
+    }
+
+    public static long getFlightIdCancelBooking(long bookingId) {
+        BookingDao bookingDao = new BookingDao();
+        BookingService bookingService = new BookingService(bookingDao);
+        BookingController bookingController = new BookingController(bookingService);
+
+        List<Booking> listBooking = bookingController.getFlightIdCancelBooking(bookingId);
+        return listBooking.get(0).getFlightId();
     }
 }

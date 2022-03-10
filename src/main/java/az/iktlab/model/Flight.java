@@ -1,6 +1,9 @@
 package az.iktlab.model;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class Flight {
@@ -8,6 +11,7 @@ public class Flight {
     private String destinationFrom;
     private String destinationTO;
     private Date date;
+    private Time time;
     private int seats;
     private int emptySeats;
 
@@ -18,12 +22,22 @@ public class Flight {
         this.flightId = flightId;
     }
 
-    public Flight(long flightId, String destinationFrom, String destinationTO, Date date,
-                  int seats, int emptySeats) {
+    public Flight(String destinationFrom, String destinationTO,
+                  Date date, Time time, int emptySeats) {
+        this.destinationFrom = destinationFrom;
+        this.destinationTO = destinationTO;
+        this.date = date;
+        this.time = time;
+        this.emptySeats = emptySeats;
+    }
+
+    public Flight(long flightId, String destinationFrom, String destinationTO,
+                  Date date, Time time, int seats, int emptySeats) {
         this.flightId = flightId;
         this.destinationFrom = destinationFrom;
         this.destinationTO = destinationTO;
         this.date = date;
+        this.time = time;
         this.seats = seats;
         this.emptySeats = emptySeats;
     }
@@ -60,6 +74,14 @@ public class Flight {
         this.date = date;
     }
 
+    public Time getTime() {
+        return time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
+    }
+
     public int getSeats() {
         return seats;
     }
@@ -81,12 +103,12 @@ public class Flight {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Flight flight = (Flight) o;
-        return flightId == flight.flightId && seats == flight.seats && emptySeats == flight.emptySeats && Objects.equals(destinationFrom, flight.destinationFrom) && Objects.equals(destinationTO, flight.destinationTO) && Objects.equals(date, flight.date);
+        return flightId == flight.flightId && seats == flight.seats && emptySeats == flight.emptySeats && Objects.equals(destinationFrom, flight.destinationFrom) && Objects.equals(destinationTO, flight.destinationTO) && Objects.equals(date, flight.date) && Objects.equals(time, flight.time);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(flightId, destinationFrom, destinationTO, date, seats, emptySeats);
+        return Objects.hash(flightId, destinationFrom, destinationTO, date, time, seats, emptySeats);
     }
 
     @Override
@@ -96,6 +118,7 @@ public class Flight {
                 ", destinationFrom='" + destinationFrom + '\'' +
                 ", destinationTO='" + destinationTO + '\'' +
                 ", date=" + date +
+                ", time=" + time +
                 ", seats=" + seats +
                 ", emptySeats=" + emptySeats +
                 '}';
