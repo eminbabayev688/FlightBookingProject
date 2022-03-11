@@ -3,7 +3,6 @@ package az.iktlab.util;
 import az.iktlab.controller.BookingController;
 import az.iktlab.controller.FlightController;
 import az.iktlab.controller.UserController;
-import az.iktlab.dao.entity.FlightEntity;
 import az.iktlab.dao.repo.BookingDao;
 import az.iktlab.dao.repo.FlightDao;
 import az.iktlab.dao.repo.UserDao;
@@ -13,14 +12,13 @@ import az.iktlab.model.Gender;
 import az.iktlab.service.BookingService;
 import az.iktlab.service.FlightService;
 import az.iktlab.service.UserService;
+import az.iktlab.util.Commands.AppMenuCommands;
+import az.iktlab.util.Commands.LoginPageCommands;
+import az.iktlab.util.Commands.SearchBookingCommands;
 
-import java.awt.print.Book;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Date;
-import java.sql.SQLOutput;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -274,5 +272,42 @@ public class Validator {
 
         List<Booking> listBooking = bookingController.getFlightIdCancelBooking(bookingId);
         return listBooking.get(0).getFlightId();
+    }
+
+    public static AppMenuCommands getAppMenuCommandName(String commandNumber){
+        AppMenuCommands result = null;
+
+        for (AppMenuCommands command:AppMenuCommands.values()) {
+            if (command.getCommandNumber().equals(commandNumber)){
+                result = command;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    public static LoginPageCommands getLoginPageCommandName(String commandNumber){
+        LoginPageCommands result = null;
+
+        for (LoginPageCommands command:LoginPageCommands.values()) {
+            if (command.getCommandNumber().equals(commandNumber)) {
+                result = command;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public static SearchBookingCommands getSearchBookingCommandName(String commandNumber){
+        SearchBookingCommands result = null;
+
+        for (SearchBookingCommands command:SearchBookingCommands.values()) {
+            if (command.getCommandNumber().equals(commandNumber)) {
+                result = command;
+                break;
+            }
+        }
+        return result;
     }
 }

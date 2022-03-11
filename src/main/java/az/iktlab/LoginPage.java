@@ -5,6 +5,8 @@ import az.iktlab.service.UserService;
 import az.iktlab.controller.UserController;
 import az.iktlab.util.CommandLineHelper;
 import az.iktlab.util.ConsoleColors;
+import az.iktlab.util.Commands.LoginPageCommands;
+import az.iktlab.util.Validator;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -22,23 +24,28 @@ public class LoginPage {
         while (true) {
             CommandLineHelper.showLoginMenuBar();
             System.out.print(ConsoleColors.RESET + "Select command:");
-            String command = sc.nextLine();
-
-            switch (command) {
-                case "1":
-                    String username = null;
-                    username = userController.loginUser();
-                    if (username != null) {
-                        Application.runApplication(username);
-                    }
-                    break;
-                case "2":
-                    userController.registrationUser();
-                    break;
-                case "3":
-                    System.out.println(ConsoleColors.RESET + "Goodbye, see you again");
-                    return;
+            String commandNumber = sc.nextLine();
+            LoginPageCommands command = Validator.getLoginPageCommandName(commandNumber);
+            if(command!=null){
+                switch (command) {
+                    case Login:
+                        String username = null;
+                        username = userController.loginUser();
+                        if (username != null) {
+                            Application.runApplication(username);
+                        }
+                        break;
+                    case Registration:
+                        userController.registrationUser();
+                        break;
+                    case Exit:
+                        System.out.println(ConsoleColors.RESET + "Goodbye, see you again");
+                        return;
+                }
+            }else{
+                System.out.printf(ConsoleColors.RED + "%s is invalid Command!\n\n",commandNumber);
             }
+
         }
     }
 }
