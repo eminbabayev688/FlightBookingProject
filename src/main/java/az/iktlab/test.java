@@ -1,5 +1,6 @@
 package az.iktlab;
 
+import az.iktlab.dao.repo.StartupLoaderDao;
 import az.iktlab.mapper.BookingMapper;
 import az.iktlab.mapper.FlightMapper;
 import az.iktlab.model.Gender;
@@ -21,8 +22,7 @@ import java.util.Scanner;
 import java.util.regex.*;
 
 public class test {
-    public static void main(String[] args) throws SQLException{
-
+    public static void main(String[] args) throws SQLException {
 //        DateTimeFormatter parseFormat = DateTimeFormatter.ofPattern("H:mm");
 //        Scanner sc = new Scanner(System.in);
 //        String timeString = sc.nextLine();

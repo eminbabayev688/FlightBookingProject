@@ -1,5 +1,6 @@
 package az.iktlab;
 
+import az.iktlab.dao.repo.StartupLoaderDao;
 import az.iktlab.dao.repo.UserDao;
 import az.iktlab.service.UserService;
 import az.iktlab.controller.UserController;
@@ -13,6 +14,8 @@ import java.util.Scanner;
 
 public class LoginPage {
     public static void runLoginPage() throws SQLException {
+//        StartupLoaderDao startupLoaderDao = new StartupLoaderDao();
+//        startupLoaderDao.createTables();
         final Scanner sc = new Scanner(System.in);
         System.out.println(ConsoleColors.RESET +
                 "Welcome to the application:\n");
