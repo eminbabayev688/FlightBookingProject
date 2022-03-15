@@ -1,9 +1,7 @@
 package az.iktlab.mapper;
 
 import az.iktlab.dao.entity.FlightEntity;
-import az.iktlab.dao.entity.UserEntity;
 import az.iktlab.model.Flight;
-import az.iktlab.model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,13 +14,13 @@ public class FlightMapper {
     public static List<FlightEntity> mapFromRsToEntity(ResultSet rs) throws SQLException {
         List<FlightEntity> flights = new ArrayList<>();
         while (rs.next()) {
-            flights.add(new FlightEntity(rs.getLong("flightid"),
-                    rs.getString("destinationfrom"),
-                    rs.getString("destinationto"),
+            flights.add(new FlightEntity(rs.getLong("flight_id"),
+                    rs.getString("destination_from"),
+                    rs.getString("destination_to"),
                     rs.getDate("date"),
                     rs.getTime("time"),
                     rs.getInt("seats"),
-                    rs.getInt("emptyseats")));
+                    rs.getInt("empty_seats")));
         }
         return flights;
     }
@@ -48,9 +46,9 @@ public class FlightMapper {
         flightEntity.setDestinationFrom(flight.getDestinationFrom());
         flightEntity.setDestinationTO(flight.getDestinationTO());
         flightEntity.setDate(flight.getDate());
+        flightEntity.setTime(flight.getTime());
         flightEntity.setSeats(flight.getSeats());
         flightEntity.setEmptySeats(flight.getEmptySeats());
-        flightEntity.setTime(flight.getTime());
 
         return flightEntity;
     }

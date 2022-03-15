@@ -1,11 +1,7 @@
 package az.iktlab.mapper;
 
 import az.iktlab.dao.entity.BookingEntity;
-import az.iktlab.dao.entity.FlightEntity;
-import az.iktlab.dao.entity.UserEntity;
 import az.iktlab.model.Booking;
-import az.iktlab.model.Flight;
-import az.iktlab.model.User;
 import az.iktlab.util.Validator;
 
 import java.sql.ResultSet;
@@ -19,11 +15,11 @@ public class BookingMapper {
     public static List<BookingEntity> mapFromRsToEntity(ResultSet rs) throws SQLException {
         List<BookingEntity> bookings = new ArrayList<>();
         while (rs.next()) {
-            bookings.add(new BookingEntity(rs.getLong("bookingid"),
-                    rs.getLong("flightid"),
+            bookings.add(new BookingEntity(rs.getLong("booking_id"),
+                    rs.getLong("flight_id"),
                     rs.getString("username"),
-                    rs.getString("passengername"),
-                    rs.getString("passengersurname"),
+                    rs.getString("passenger_name"),
+                    rs.getString("passenger_surname"),
                     Validator.validateGender(rs.getString("gender"))));
         }
         return bookings;

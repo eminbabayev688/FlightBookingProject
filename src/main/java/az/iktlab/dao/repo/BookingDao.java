@@ -3,12 +3,7 @@ package az.iktlab.dao.repo;
 import az.iktlab.dao.JdbcConnection;
 import az.iktlab.dao.PgSql;
 import az.iktlab.dao.entity.BookingEntity;
-import az.iktlab.dao.entity.FlightEntity;
 import az.iktlab.mapper.BookingMapper;
-import az.iktlab.mapper.FlightMapper;
-import az.iktlab.mapper.UserMapper;
-import az.iktlab.model.Booking;
-import az.iktlab.model.Gender;
 import az.iktlab.util.SqlQuery;
 
 import java.sql.ResultSet;

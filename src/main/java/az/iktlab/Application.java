@@ -42,11 +42,11 @@ public class Application {
             AppMenuCommands command = Validator.getAppMenuCommandName(commandNumber);
             if (command != null) {
                 switch (command) {
-                    case OnlineBoard:
+                    case ONLINE_BOARD:
                         flightController.getAllNext24Flights().forEach(System.out::println);
                         System.out.println();
                         break;
-                    case ShowFlightInfo:
+                    case SHOW_FLIGHT_INFO:
                         System.out.print("\nInformation about the flight whose ID is entered:\n");
                         long flightId = flightController.checkFlightIdInDatabase();
                         if (flightId > 0) {
@@ -59,7 +59,7 @@ public class Application {
                                     "No flight found matching the ID entered.\n");
                         }
                         break;
-                    case SearchAndBooking:
+                    case SEARCH_AND_BOOKING:
                         System.out.println("\nSearch and Booking flights menu:");
                         CommandLineHelper.showSearchAndBookingMenuBar();
                         System.out.print(ConsoleColors.RESET + "Select command:");
@@ -67,7 +67,7 @@ public class Application {
                         SearchBookingCommands commandSB = Validator.getSearchBookingCommandName(commandNumberSB);
                         if (commandSB != null) {
                             switch (commandSB) {
-                                case Search:
+                                case SEARCH:
                                     List<Flight> checkList = flightController.searchFlight();
                                     if (checkList.isEmpty() == true) {
                                         break;
@@ -76,18 +76,22 @@ public class Application {
                                         System.out.println();
                                     }
                                     break;
-                                case Booking:
-                                    flightController.emptySeatsDecrease(bookingController.bookingFlight(username));
+                                case BOOKING:
+                                    long bookingFlightId = bookingController.bookingFlight(username);
+                                    if (bookingFlightId > 0)
+                                        flightController.emptySeatsDecrease(bookingFlightId);
                                     break;
                             }
                         } else {
                             System.out.printf(ConsoleColors.RED + "%s is invalid Command!\n\n", commandNumberSB);
                         }
                         break;
-                    case CancelBooking:
-                        flightController.emptySeatsIncrease(bookingController.cancelBooking());
+                    case CANCEL_BOOKING:
+                        long cancelBookingFlightId = bookingController.cancelBooking();
+                        if (cancelBookingFlightId > 0)
+                            flightController.emptySeatsIncrease(cancelBookingFlightId);
                         break;
-                    case MyFlights:
+                    case MY_FLIGHTS:
                         System.out.print(ConsoleColors.RESET +
                                 "A list of all flights booked by the user:\n");
                         int countUserFlight = bookingController.checkMyBookings(username);
@@ -101,7 +105,7 @@ public class Application {
                                     "There are no flights you have booked\n");
                         }
                         break;
-                    case Logout:
+                    case LOGOUT:
                         System.out.println(ConsoleColors.GREEN + "You are logged out of your account\n");
                         return;
                 }

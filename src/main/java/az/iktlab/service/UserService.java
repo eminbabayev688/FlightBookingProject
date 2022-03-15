@@ -66,7 +66,7 @@ public class UserService {
         if (Validator.checkUsernamePattern(user.getUsername()) == false) return;
         if (Validator.checkUsernameInDatabase(user.getUsername()) == false) return;
 
-        //check that the username is set correctly
+        //check that the password is set correctly
         if (Validator.checkPassword(user.getPassword()) == false) return;
         if (Validator.checkPasswordPattern(user.getPassword()) == false) return;
 

@@ -1,5 +1,5 @@
 package az.iktlab.model;
 
 public enum Gender {
-    male, female, noneGender
+    MALE, FEMALE, FALSE_GENDER
 }

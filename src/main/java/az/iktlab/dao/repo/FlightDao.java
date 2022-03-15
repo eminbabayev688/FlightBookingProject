@@ -4,14 +4,10 @@ import az.iktlab.dao.JdbcConnection;
 import az.iktlab.dao.PgSql;
 import az.iktlab.dao.entity.FlightEntity;
 import az.iktlab.mapper.FlightMapper;
-import az.iktlab.mapper.UserMapper;
-import az.iktlab.model.Flight;
 import az.iktlab.util.SqlQuery;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 public class FlightDao {
@@ -24,7 +20,12 @@ public class FlightDao {
         ResultSet rs = stmt.executeQuery(
                 String.valueOf(SqlQuery.showSearchingFlight(flightEntity)));
         return FlightMapper.mapFromRsToEntity(rs);
+    }
 
+    public int countEmptySeats(long flightId) throws SQLException {
+        Statement stmt = jdbcConnection.getStatement();
+        ResultSet rs = stmt.executeQuery(SqlQuery.countEmptySeats(flightId));
+        return FlightMapper.mapFromRsToCount(rs);
     }
 
     public List<FlightEntity> getAllNext24Flights(LocalDate date, LocalDate nextDate)
@@ -38,7 +39,6 @@ public class FlightDao {
         Statement stmt = jdbcConnection.getStatement();
         ResultSet rs = stmt.executeQuery(String.valueOf(SqlQuery.showInfoFlight(flightId)));
         return FlightMapper.mapFromRsToEntity(rs);
-
     }
 
     public void emptySeatsDecrease(long flightId) throws SQLException {
@@ -60,7 +60,6 @@ public class FlightDao {
     public int getCountSearchResult(FlightEntity flightEntity) throws SQLException {
         Statement stmt = jdbcConnection.getStatement();
         ResultSet rs = stmt.executeQuery(SqlQuery.getCountSearchResult(flightEntity));
-
         return FlightMapper.mapFromRsToCount(rs);
     }
 }

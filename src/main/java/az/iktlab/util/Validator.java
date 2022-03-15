@@ -42,11 +42,12 @@ public class Validator {
     }
 
     public static Gender validateGender(String gender) {
-        if (gender.equals("male"))
-            return Gender.male;
-        else if (gender.equals("female"))
-            return Gender.female;
-        else return Gender.noneGender;
+        String genderLowerCase = gender.toLowerCase();
+        if (genderLowerCase.equals("male"))
+            return Gender.MALE;
+        else if (genderLowerCase.equals("female"))
+            return Gender.FEMALE;
+        else return Gender.FALSE_GENDER;
     }
 
     public static boolean checkUsername(String username) {
@@ -151,7 +152,7 @@ public class Validator {
 
         for (int i = 0; i < n; i++) {
             String s = Character.toString(password.charAt(i));
-            if (Pattern.matches("[a-zA-Z0-9!@#$%^&*]", s) == false) {
+            if (Pattern.matches("[a-zA-Z0-9!@#$%^&*]", s) == false && checker) {
                 System.out.println(ConsoleColors.RED +
                         "You cannot use the " + s + " symbol in the password.");
                 System.out.println(ConsoleColors.RED + "password can contain upper" +
@@ -174,6 +175,19 @@ public class Validator {
         } else {
             checker = true;
         }
+        return checker;
+    }
+
+    public static boolean checkEmptySeats(long fightId) {
+        boolean checker = false;
+        FlightDao flightDao = new FlightDao();
+        FlightService flightService = new FlightService(flightDao);
+        FlightController flightController = new FlightController(flightService);
+        int count = flightController.countEmptySeats(fightId);
+        if (count > 0) checker = true;
+        else
+            System.out.printf(ConsoleColors.RED + "There is no empty seats on the flight" +
+                    " with ID %s.\n\n", fightId);
         return checker;
     }
 
@@ -214,8 +228,8 @@ public class Validator {
 
     public static boolean checkGender(Gender gender) {
         boolean checker = true;
-        if (gender != Gender.female) {
-            if (gender != Gender.male) {
+        if (gender != Gender.FEMALE) {
+            if (gender != Gender.MALE) {
                 System.out.println(ConsoleColors.RED +
                         "Enter valid gender name.\n");
                 checker = false;
@@ -274,11 +288,11 @@ public class Validator {
         return listBooking.get(0).getFlightId();
     }
 
-    public static AppMenuCommands getAppMenuCommandName(String commandNumber){
+    public static AppMenuCommands getAppMenuCommandName(String commandNumber) {
         AppMenuCommands result = null;
 
-        for (AppMenuCommands command:AppMenuCommands.values()) {
-            if (command.getCommandNumber().equals(commandNumber)){
+        for (AppMenuCommands command : AppMenuCommands.values()) {
+            if (command.getCommandNumber().equals(commandNumber)) {
                 result = command;
                 break;
             }
@@ -287,10 +301,10 @@ public class Validator {
         return result;
     }
 
-    public static LoginPageCommands getLoginPageCommandName(String commandNumber){
+    public static LoginPageCommands getLoginPageCommandName(String commandNumber) {
         LoginPageCommands result = null;
 
-        for (LoginPageCommands command:LoginPageCommands.values()) {
+        for (LoginPageCommands command : LoginPageCommands.values()) {
             if (command.getCommandNumber().equals(commandNumber)) {
                 result = command;
                 break;
@@ -299,10 +313,10 @@ public class Validator {
         return result;
     }
 
-    public static SearchBookingCommands getSearchBookingCommandName(String commandNumber){
+    public static SearchBookingCommands getSearchBookingCommandName(String commandNumber) {
         SearchBookingCommands result = null;
 
-        for (SearchBookingCommands command:SearchBookingCommands.values()) {
+        for (SearchBookingCommands command : SearchBookingCommands.values()) {
             if (command.getCommandNumber().equals(commandNumber)) {
                 result = command;
                 break;

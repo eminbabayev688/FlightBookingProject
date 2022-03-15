@@ -20,7 +20,7 @@ public class CommandLineHelper {
 
     public static void showSearchAndBookingMenuBar() {
         System.out.println(ConsoleColors.BLUE + "Commands:\n" +
-                "3.1.search - for search all available flights.\n" +
-                "3.2.booking - for booking any available flights.\n");
+                "1.Search - for search all available flights.\n" +
+                "2.Booking - for booking any available flights.\n");
     }
 }

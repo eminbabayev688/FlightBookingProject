@@ -1,8 +1,8 @@
 package az.iktlab.util.Commands;
 
 public enum SearchBookingCommands {
-    Search("3.1"),
-    Booking("3.2");
+    SEARCH("1"),
+    BOOKING("2");
 
     private final String commandNumber;
 

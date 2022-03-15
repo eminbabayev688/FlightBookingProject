@@ -1,5 +1,6 @@
 package az.iktlab.controller;
 
+import az.iktlab.model.Booking;
 import az.iktlab.model.Flight;
 import az.iktlab.service.FlightService;
 import az.iktlab.util.ConsoleColors;
@@ -27,26 +28,31 @@ public class FlightController {
         return service.getCountSearchResult(flight);
     }
 
+    public int countEmptySeats(long flightId) {
+
+        return service.checkEmptySeats(flightId);
+    }
+
     public List<Flight> searchFlight() throws SQLException {
         System.out.print("Fill in the fields to search for flights:\n");
         Flight flight = new Flight();
         System.out.print("Enter Destination From:");
-        String destinationFrom = sc.nextLine();
+        String destinationFrom = sc.next();
         flight.setDestinationFrom(destinationFrom);
 
         System.out.print("Enter Destination TO:");
-        String destinationTo = sc.nextLine();
+        String destinationTo = sc.next();
         flight.setDestinationTO(destinationTo);
 
         System.out.println("\"Date example: 2022-01-25 (yyyy-MM-dd)\":");
         System.out.print("Enter date:");
-        String sqlDate = sc.nextLine();
+        String sqlDate = sc.next();
         flight.setDate(Date.valueOf(sqlDate));
 
         System.out.println("\"Time example: 23:10 (HH:mm)\":");
         DateTimeFormatter parseFormat = DateTimeFormatter.ofPattern("H:mm");
         System.out.print("Enter time:");
-        String timeString = sc.nextLine();
+        String timeString = sc.next();
         LocalTime sqlTime = LocalTime.parse(timeString, parseFormat);
         flight.setTime(Time.valueOf(sqlTime));
 
@@ -81,8 +87,8 @@ public class FlightController {
     }
 
     public long checkFlightIdInDatabase() {
-        System.out.print(ConsoleColors.RESET + "Enter fight id:");
-        Long flightId = sc.nextLong();
+        System.out.print(ConsoleColors.RESET + "Enter flight id:");
+        long flightId = sc.nextLong();
 
         return service.checkFlightIdInDatabase(flightId);
     }

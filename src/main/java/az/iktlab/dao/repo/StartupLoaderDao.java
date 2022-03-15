@@ -13,9 +13,10 @@ public class StartupLoaderDao {
 
     public void createTables() throws SQLException {
         Statement statement = jdbcConnection.getStatement();
-        statement.execute(SqlQuery.createFlightsTables());
-        statement.execute(SqlQuery.createBookingsTables());
-        statement.execute(SqlQuery.createUsersTables());
+        statement.execute(SqlQuery.createFlightsTable());
+        statement.execute(SqlQuery.createBookingsTable());
+        statement.execute(SqlQuery.createUsersTable());
+        statement.execute(SqlQuery.fillInFlightsTable());
     }
 
 }

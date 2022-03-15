@@ -1,9 +1,9 @@
 package az.iktlab.util.Commands;
 
 public enum LoginPageCommands {
-    Login("1"),
-    Registration("2"),
-    Exit("3");
+    LOGIN("1"),
+    REGISTRATION("2"),
+    EXIT("3");
 
     private final String commandNumber;
 

@@ -1,7 +1,5 @@
 package az.iktlab;
 
-import az.iktlab.dao.repo.StartupLoaderDao;
-
 import java.sql.SQLException;
 
 public class Main {

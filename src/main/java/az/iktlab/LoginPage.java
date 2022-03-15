@@ -29,24 +29,24 @@ public class LoginPage {
             System.out.print(ConsoleColors.RESET + "Select command:");
             String commandNumber = sc.nextLine();
             LoginPageCommands command = Validator.getLoginPageCommandName(commandNumber);
-            if(command!=null){
+            if (command != null) {
                 switch (command) {
-                    case Login:
+                    case LOGIN:
                         String username = null;
                         username = userController.loginUser();
                         if (username != null) {
                             Application.runApplication(username);
                         }
                         break;
-                    case Registration:
+                    case REGISTRATION:
                         userController.registrationUser();
                         break;
-                    case Exit:
+                    case EXIT:
                         System.out.println(ConsoleColors.RESET + "Goodbye, see you again");
                         return;
                 }
-            }else{
-                System.out.printf(ConsoleColors.RED + "%s is invalid Command!\n\n",commandNumber);
+            } else {
+                System.out.printf(ConsoleColors.RED + "%s is invalid Command!\n\n", commandNumber);
             }
 
         }

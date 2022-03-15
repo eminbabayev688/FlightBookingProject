@@ -1,20 +1,15 @@
 package az.iktlab.service;
 
 import az.iktlab.dao.entity.BookingEntity;
-import az.iktlab.dao.entity.FlightEntity;
 import az.iktlab.dao.repo.BookingDao;
 import az.iktlab.mapper.BookingMapper;
-import az.iktlab.mapper.FlightMapper;
 import az.iktlab.model.Booking;
-import az.iktlab.model.Flight;
-import az.iktlab.model.Gender;
 import az.iktlab.util.ConsoleColors;
 import az.iktlab.util.Validator;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.LoggingMXBean;
 
 public class BookingService {
 
@@ -49,7 +44,14 @@ public class BookingService {
     }
 
     public Long bookingFlight(Booking booking) {
+        if (Validator.checkFlightIdInDatabase(booking.getFlightId()) == false) return 0l;
+        if (Validator.checkFirstAndLastName(booking.getPassengerName()) == false) return 0l;
+        if (Validator.checkFirstAndLastName(booking.getPassengerSurname()) == false) return 0l;
+        if (Validator.checkGender(booking.getGender()) == false) return 0l;
         if (Validator.checkPassengerBookingTable(booking) == false) return 0l;
+        if (Validator.checkEmptySeats(booking.getFlightId()) == false) return 0l;
+
+
         BookingEntity bookingEntity = BookingMapper.mapToEntity(booking);
         try {
             dao.bookingFlight(bookingEntity);
@@ -64,11 +66,6 @@ public class BookingService {
     }
 
     public int checkPassengerBookingTable(Booking booking) {
-        if (Validator.checkFlightIdInDatabase(booking.getFlightId()) == false) return -1;
-        if (Validator.checkFirstAndLastName(booking.getPassengerName()) == false) return -1;
-        if (Validator.checkFirstAndLastName(booking.getPassengerSurname()) == false) return -1;
-        if (Validator.checkGender(booking.getGender()) == false) return -1;
-
         BookingEntity bookingEntity = BookingMapper.mapToEntity(booking);
         int count = 0;
         try {

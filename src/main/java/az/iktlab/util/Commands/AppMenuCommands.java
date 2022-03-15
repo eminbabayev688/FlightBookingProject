@@ -1,12 +1,12 @@
 package az.iktlab.util.Commands;
 
 public enum AppMenuCommands {
-    OnlineBoard("1"),
-    ShowFlightInfo("2"),
-    SearchAndBooking("3"),
-    CancelBooking("4"),
-    MyFlights("5"),
-    Logout("6");
+    ONLINE_BOARD("1"),
+    SHOW_FLIGHT_INFO("2"),
+    SEARCH_AND_BOOKING("3"),
+    CANCEL_BOOKING("4"),
+    MY_FLIGHTS("5"),
+    LOGOUT("6");
 
     private final String commandNumber;
 
